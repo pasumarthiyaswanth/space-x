@@ -1,14 +1,13 @@
 .header{
-    background-color: aqua;
-    height: 250px;
+    background-color: teal;
+    height: 200px;
     width: 100%;
     display: inline-block;
 }
 .header h1 {
-    color:black;
-    margin: 0%;
+    color: black;
     text-align: center;
-    font-size: 50px;
+    font-size: 60px;
+    margin: 0px;
     margin-top: 60px;
 }
-
