@@ -1,30 +1,51 @@
 import React, { Component } from 'react'
 import Launch from '../Launch/Launch'
 import './styles.css'
+import axios from 'axios';
 class Launchlist extends Component{
+     state={
+         launches : []
+     }
+
+    componentDidMount =( )=>{
+    this.getLaunches()
+    }
+    getLaunches=()=>{ 
+       axios.get('https://api.spacexdata.com/v3/launches').then((response)=>{
+     this.setState(
+    
+     {launches:response.data}
+    
+)
+
+    
+})
+.catch((error)=>{
+    console.log(error)
+})
+
+    }
+   Launchlist=()=>{
+      const LaunchlistComponents= this.state.launches.map((launch,index )=>{
+          const image= launch.links.flickr_images.length===0?
+           'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Soyuz_TMA-9_launch.jpg/1200px-Soyuz_TMA-9_launch.jpg':launch.links.flickr_images[0];
+          console.log(launch.links.flickr_images[0])
+           return<Launch
+           key={"launch_"+index}
+           pic={image}
+           title={launch.mission_name} 
+           launchdate={launch.launch_date_local}
+           description={launch.details}  />
+
+       })
+
+       return LaunchlistComponents;
+   }
+
     render (){
         return(
-            <div className="launch-list">
-                 <Launch
-                     pic="https://farm9.staticflickr.com/8597/16856369125_e97cd30ef7_o.jpg"
-                     title="FalconSat" 
-                     launchdate="2006-03-25T10:30:00+12:00"
-                     description="Second launch of the  Falcon 9s"
-    />
-                  <Launch 
-                         pic="https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png"
-                         title="Starlink 2" 
-                         launchdate="2020-01-06T21:19:00-05:00"
-                         description="Second launch of the  Falcon 9s"
-    />
-                  
-                     <Launch 
-                         pic="https://images2.imgbox.com/a7/ba/NBZSw3Ho_o.png"
-                         title="RazakSat" 
-                         launchdate="2009-07-13T15:35:00+12:00"
-                         description="Second launch of the  Falcon 9s"
-    />
-
+            <div className="launch-list">     
+                  {this.Launchlist ( )}
             </div>
         )
     }
